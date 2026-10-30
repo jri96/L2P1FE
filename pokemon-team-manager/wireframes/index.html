@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8" />
+<title>Wireframes — Pokémon Team Manager</title>
+<style>
+  :root{
+    --red:#e3350d; --red-dark:#b02a0a; --ink:#1b1b2a; --muted:#6b6b80;
+    --line:#d7d7e0; --bg:#f4f4f7; --card:#ffffff;
+    --grass:#78c850; --poison:#a33ea1; --fire:#f08030; --water:#6390f0;
+    --electric:#f7d02c; --flying:#a98ff3; --normal:#a8a77a; --ground:#e2bf65;
+    --bug:#a6b91a; --psychic:#f95587; --rock:#b6a136; --ice:#96d9d6;
+    --dragon:#6f35fc; --dark:#705746; --steel:#b7b7ce; --fairy:#d685ad;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:32px 24px 80px; background:#e9e9ee;
+    font-family:"Segoe UI", Roboto, Helvetica, Arial, sans-serif; color:var(--ink);
+  }
+  .doc-head{max-width:1180px; margin:0 auto 28px;}
+  .doc-head h1{margin:0 0 6px; font-size:26px}
+  .doc-head p{margin:0; color:var(--muted); font-size:14px; max-width:900px; line-height:1.5}
+
+  figure.wf{
+    max-width:1180px; margin:0 auto 46px; background:#fff;
+    border:1px solid var(--line); border-radius:10px; overflow:hidden;
+  }
+  figure.wf figcaption{
+    display:flex; align-items:center; gap:10px;
+    padding:10px 16px; font-size:13px; font-weight:600; letter-spacing:.02em;
+    background:#22223a; color:#fff;
+  }
+  figure.wf figcaption .tag{
+    background:#fff; color:#22223a; border-radius:20px; padding:2px 10px;
+    font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em;
+  }
+
+  /* ---------- browser mock ---------- */
+  .screen{padding:22px; background:#e9e9ee}
+  .browser{border-radius:8px; overflow:hidden; background:#fff; border:1px solid #c9c9d4}
+  .bar{display:flex; align-items:center; gap:7px; padding:9px 12px; background:#dfe0e6; border-bottom:1px solid #c9c9d4}
+  .dot{width:11px; height:11px; border-radius:50%}
+  .dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+  .url{
+    flex:1; margin-left:10px; background:#fff; border-radius:14px; font-size:11px;
+    color:#666; padding:4px 12px; font-family:Consolas, monospace; border:1px solid #cfcfd9;
+  }
+  .app{min-height:520px; display:flex; flex-direction:column; background:#fff}
+
+  /* ---------- shared app chrome ---------- */
+  .nav{
+    display:flex; align-items:center; gap:22px; padding:14px 26px;
+    background:#1b1b2a; color:#fff;
+  }
+  .brand{display:flex; align-items:center; gap:9px; font-weight:800; font-size:15px; letter-spacing:.01em}
+  .logo{
+    width:26px;height:26px;border-radius:7px;background:var(--red);
+    display:grid;place-items:center;font-size:14px;
+  }
+  .links{display:flex; gap:6px; margin-left:14px}
+  .links a{
+    font-size:13px; padding:7px 13px; border-radius:8px; color:#c9c9d8;
+    text-decoration:none; cursor:pointer;
+  }
+  .links a.on{background:var(--red); color:#fff; font-weight:700}
+  .nav-meta{margin-left:auto; font-size:12px; color:#9a9ab0}
+  .main{flex:1; padding:24px 26px 30px; background:#f7f7fa}
+  .foot{
+    display:flex; justify-content:space-between; padding:12px 26px;
+    background:#1b1b2a; color:#8f8fa6; font-size:11px;
+  }
+
+  /* ---------- reusable bits ---------- */
+  .btn{
+    display:inline-flex; align-items:center; gap:7px; border:0; cursor:pointer;
+    font-size:13px; font-weight:700; padding:10px 16px; border-radius:9px;
+    background:var(--red); color:#fff; font-family:inherit;
+  }
+  .btn.ghost{background:#fff; color:var(--ink); border:1px solid var(--line)}
+  .btn.dark{background:var(--ink)}
+  .btn.sm{padding:7px 11px; font-size:12px; border-radius:8px}
+  .btn.danger{background:#fff; color:#d0342c; border:1px solid #f0c2be}
+
+  .toolbar{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:16px}
+  .search{
+    flex:1; min-width:220px; display:flex; align-items:center; gap:8px;
+    background:#fff; border:1px solid var(--line); border-radius:9px; padding:10px 13px;
+    font-size:13px; color:#9a9ab0;
+  }
+  select.pill{
+    background:#fff; border:1px solid var(--line); border-radius:9px; padding:10px 12px;
+    font-size:13px; color:var(--ink); font-family:inherit;
+  }
+  .count{font-size:12px; color:var(--muted); margin:0 0 12px}
+
+  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:14px}
+  .card{
+    position:relative; background:#fff; border:1px solid var(--line); border-radius:14px;
+    padding:12px; display:flex; flex-direction:column; gap:8px;
+    box-shadow:0 1px 2px rgba(20,20,40,.05);
+  }
+  .sprite{
+    position:relative; height:104px; border-radius:10px; overflow:hidden;
+    background:linear-gradient(180deg,#f1f3f9,#e6e9f4); display:grid; place-items:center;
+  }
+  .sprite img{position:relative; z-index:2; width:92%; height:92%; object-fit:contain}
+  .sprite .fb{
+    position:absolute; z-index:1; font-size:22px; font-weight:800; color:#b6b9c9;
+    font-family:Consolas, monospace;
+  }
+  .meta{display:flex; flex-direction:column; gap:5px}
+  .num{font-size:11px; color:#9a9ab0; font-family:Consolas, monospace}
+  .meta h4{margin:0; font-size:14px; text-transform:capitalize}
+  .chips{display:flex; gap:6px; flex-wrap:wrap}
+  .chip{
+    font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.05em;
+    color:#fff; padding:3px 8px; border-radius:20px;
+  }
+  .chip.grass{background:var(--grass)} .chip.poison{background:var(--poison)}
+  .chip.fire{background:var(--fire)} .chip.water{background:var(--water)}
+  .chip.electric{background:var(--electric); color:#4a3d00}
+  .chip.flying{background:var(--flying)} .chip.normal{background:var(--normal)}
+  .chip.bug{background:var(--bug)} .chip.psychic{background:var(--psychic)}
+  .chip.ground{background:var(--ground); color:#4a3b00} .chip.rock{background:var(--rock)}
+  .chip.ice{background:var(--ice); color:#12474a} .chip.dragon{background:var(--dragon)}
+  .chip.dark{background:var(--dark)} .chip.steel{background:var(--steel); color:#33334d}
+  .chip.fairy{background:var(--fairy); color:#4d1732}
+  .acts{display:flex; gap:7px; margin-top:2px}
+  .ico{
+    flex:1; border:1px solid var(--line); background:#fff; border-radius:8px;
+    padding:7px 0; font-size:13px; cursor:pointer; color:var(--muted);
+  }
+  .ico.liked{color:#e0245e; border-color:#f7c3d3; background:#fff5f8}
+
+  .note{
+    position:absolute; z-index:5; right:-6px; top:-11px;
+    background:#fff6c9; border:1px dashed #c9a227; color:#7a5c00;
+    font-size:10px; font-weight:700; padding:3px 8px; border-radius:6px;
+    transform:rotate(-2deg); white-space:nowrap;
+    font-family:"Segoe Print","Comic Sans MS",cursive;
+  }
+  .hifi .note{display:none}
+  .hifi .fb{display:none}
+
+  .pager{display:flex; gap:6px; justify-content:center; margin-top:18px; align-items:center}
+  .pager span{
+    min-width:30px; text-align:center; padding:7px 9px; border-radius:8px;
+    border:1px solid var(--line); background:#fff; font-size:12px; color:var(--muted);
+  }
+  .pager span.on{background:var(--ink); color:#fff; border-color:var(--ink); font-weight:700}
+
+  .hero{
+    background:linear-gradient(135deg,#1b1b2a 0%,#2c2c47 60%,#4a1d12 100%);
+    border-radius:18px; padding:34px 32px; color:#fff; position:relative; overflow:hidden;
+  }
+  .hero h2{margin:0 0 10px; font-size:27px; line-height:1.2; max-width:520px}
+  .hero p{margin:0 0 20px; font-size:13.5px; color:#c9c9dd; max-width:520px; line-height:1.6}
+  .hero .cta{display:flex; gap:10px}
+  .hero .ball{
+    position:absolute; right:-30px; top:-40px; width:210px; height:210px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #ff7b6b, var(--red) 60%, #8d2109);
+    opacity:.35;
+  }
+
+  .stats{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px}
+  .stat{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px}
+  .stat b{display:block; font-size:24px; margin-bottom:3px}
+  .stat span{font-size:12px; color:var(--muted)}
+
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:16px}
+  .step{background:#fff; border:1px solid var(--line); border-radius:14px; padding:16px}
+  .step i{
+    display:grid; place-items:center; width:26px; height:26px; border-radius:50%;
+    background:var(--red); color:#fff; font-style:normal; font-size:12px; font-weight:800;
+    margin-bottom:9px;
+  }
+  .step h5{margin:0 0 5px; font-size:13.5px}
+  .step p{margin:0; font-size:12px; color:var(--muted); line-height:1.5}
+
+  .sec-title{display:flex; align-items:center; justify-content:space-between; margin:22px 0 12px}
+  .sec-title h3{margin:0; font-size:16px}
+  .crumb{font-size:12px; color:var(--muted); margin-bottom:10px; display:inline-block; text-decoration:none}
+
+  .detail{display:grid; grid-template-columns:330px 1fr; gap:22px}
+  .panel{background:#fff; border:1px solid var(--line); border-radius:16px; padding:18px}
+  .big-sprite{
+    height:250px; border-radius:14px; background:linear-gradient(180deg,#f1f3f9,#e4e8f5);
+    display:grid; place-items:center; position:relative; overflow:hidden;
+  }
+  .big-sprite img{width:88%; height:88%; object-fit:contain; position:relative; z-index:2}
+  .big-sprite .fb{position:absolute; font-size:34px; font-weight:800; color:#b6b9c9; font-family:Consolas,monospace}
+  .stack{display:flex; flex-direction:column; gap:9px; margin-top:14px}
+  .stack .btn{justify-content:center; width:100%}
+  .menu{
+    background:#fff; border:1px solid var(--line); border-radius:10px; overflow:hidden;
+    box-shadow:0 8px 22px rgba(20,20,40,.12);
+  }
+  .menu div{padding:9px 12px; font-size:12.5px; border-bottom:1px solid #eee; text-transform:capitalize}
+  .menu div:last-child{border-bottom:0}
+  .menu div:hover{background:#f5f6fb}
+
+  .d-head{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:6px}
+  .d-head h2{margin:0; font-size:24px; text-transform:capitalize}
+  .d-head .num{font-size:14px}
+  .about{font-size:13px; line-height:1.65; color:#4a4a5e; margin:14px 0 18px}
+  .about b{color:var(--ink)}
+
+  .bar-row{display:grid; grid-template-columns:74px 34px 1fr; gap:10px; align-items:center; margin-bottom:9px; font-size:12px}
+  .bar-row .lbl{color:var(--muted); font-weight:700}
+  .bar-row .val{font-family:Consolas, monospace; font-weight:700}
+  .track{height:9px; background:#eceef5; border-radius:20px; overflow:hidden}
+  .track i{display:block; height:100%; background:linear-gradient(90deg,var(--red),#ff8a5c); border-radius:20px}
+
+  .team-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px}
+  .team-card{background:#fff; border:1px solid var(--line); border-radius:16px; padding:16px; position:relative}
+  .team-card h4{margin:0 0 3px; font-size:15px}
+  .team-card .sub{font-size:11.5px; color:var(--muted); margin-bottom:12px}
+  .slots{display:grid; grid-template-columns:repeat(6,1fr); gap:6px; margin-bottom:13px}
+  .slot{
+    aspect-ratio:1; border-radius:9px; background:linear-gradient(180deg,#f2f4fa,#e7eaf5);
+    display:grid; place-items:center; position:relative; overflow:hidden;
+  }
+  .slot img{width:90%; height:90%; object-fit:contain; position:relative; z-index:2}
+  .slot .fb{position:absolute; font-size:9px; color:#b6b9c9; font-family:Consolas,monospace}
+  .slot.empty{background:#fff; border:1.5px dashed #c9cbd8}
+  .slot.empty span{font-size:15px; color:#b9bccb}
+  .slot .x{
+    position:absolute; z-index:3; right:2px; top:2px; width:16px; height:16px; border-radius:50%;
+    background:#fff; border:1px solid var(--line); font-size:9px; line-height:14px; text-align:center;
+    color:#d0342c;
+  }
+  .team-card .row{display:flex; gap:8px}
+  .team-card .row .btn{flex:1; justify-content:center}
+
+  .newteam{
+    border:1.5px dashed #b9bccb; background:#fff; border-radius:16px; padding:16px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
+    min-height:150px; color:var(--muted); font-size:13px;
+  }
+
+  .member{
+    display:flex; align-items:center; gap:12px; background:#fff; border:1px solid var(--line);
+    border-radius:12px; padding:9px 13px; margin-bottom:9px;
+  }
+  .member .mini{
+    width:44px; height:44px; border-radius:9px; background:linear-gradient(180deg,#f2f4fa,#e7eaf5);
+    display:grid; place-items:center; position:relative; overflow:hidden;
+  }
+  .member .mini img{width:95%; height:95%; object-fit:contain; position:relative; z-index:2}
+  .member .mini .fb{position:absolute; font-size:9px; color:#b6b9c9; font-family:Consolas,monospace}
+  .member .nm{font-size:13.5px; font-weight:700; text-transform:capitalize}
+  .member .ty{font-size:11px; color:var(--muted)}
+  .member .right{margin-left:auto; display:flex; gap:8px; align-items:center}
+  .cap{font-size:12px; color:var(--muted); display:flex; justify-content:space-between; margin-bottom:12px}
+
+  .empty-state{
+    background:#fff; border:1.5px dashed #b9bccb; border-radius:16px; padding:34px;
+    text-align:center; color:var(--muted); font-size:13px;
+  }
+  .empty-state b{display:block; color:var(--ink); font-size:15px; margin-bottom:6px}
+
+  /* ---------- LOW FIDELITY ---------- */
+  .lofi .app{background:#fff}
+  .lofi .nav, .lofi .foot{background:#f0f0f0; color:#555; border-bottom:1px dashed #b9b9b9}
+  .lofi .logo{background:#dcdcdc; color:#666}
+  .lofi .links a{color:#777}
+  .lofi .links a.on{background:#dcdcdc; color:#222}
+  .lofi .main{background:#fff}
+  .lofi *{filter:grayscale(1) !important; box-shadow:none !important}
+  .lofi .btn{background:#e8e8e8; color:#333; border:1px dashed #9a9a9a}
+  .lofi .btn.dark{background:#dcdcdc}
+  .lofi .hero{background:#f2f2f2; border:1px dashed #9a9a9a}
+  .lofi .hero p{color:#666}
+  .lofi .hero .ball{background:#e2e2e2; opacity:1}
+  .lofi .stat, .lofi .step, .lofi .card, .lofi .panel, .lofi .team-card,
+  .lofi .member, .lofi .newteam, .lofi .empty-state, .lofi .search,
+  .lofi select.pill, .lofi .pager span, .lofi .ico, .lofi .menu, .lofi .track{
+    background:#fafafa; border:1px dashed #9a9a9a; border-radius:0;
+  }
+  .lofi .step i{background:#dcdcdc; color:#333}
+  .lofi .sprite, .lofi .big-sprite, .lofi .slot, .lofi .member .mini{
+    background:#fff; border:1px dashed #9a9a9a; background-image:
+      linear-gradient(to bottom right, transparent calc(50% - 1px), #c4c4c4 calc(50% - 1px), #c4c4c4 calc(50% + 1px), transparent calc(50% + 1px)),
+      linear-gradient(to bottom left,  transparent calc(50% - 1px), #c4c4c4 calc(50% - 1px), #c4c4c4 calc(50% + 1px), transparent calc(50% + 1px));
+  }
+  .lofi .sprite img, .lofi .big-sprite img, .lofi .slot img{display:none !important}
+  .lofi .sprite .fb, .lofi .big-sprite .fb, .lofi .slot .fb{z-index:4; background:#fff; padding:2px 5px; font-size:12px}
+  .lofi .chip{background:#ddd !important; color:#333 !important; border:1px dashed #999}
+  .lofi .track i{background:#c4c4c4}
+  .lofi .ico.liked{background:#e4e4e4; color:#333; border-style:solid}
+  .lofi .slot.empty{background:#fff}
+  .lofi .slot .x{background:#fff; border:1px dashed #999}
+  .lofi body, .lofi{font-family:"Segoe Print","Comic Sans MS",cursive}
+  .lofi .nav, .lofi .foot, .lofi .url{font-family:Consolas, monospace}
+  .lofi .menu{border-style:solid}
+
+  /* ---------- HIGH FIDELITY ---------- */
+  .hifi{padding:22px}
+  .hifi .browser{box-shadow:0 18px 44px rgba(20,20,45,.18)}
+
+  .legend{
+    max-width:1180px; margin:0 auto 40px; background:#fff; border:1px solid var(--line);
+    border-radius:10px; padding:18px 22px; font-size:13px; color:var(--muted); line-height:1.7;
+  }
+  .legend b{color:var(--ink)}
+
+  @media print{
+    body{background:#fff; padding:0}
+    figure.wf{page-break-after:always; border:0}
+    .doc-head, .legend{display:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-head">
+  <h1>Wireframes — Pokémon Team Manager</h1>
+  <p>
+    Low-fidelity = structuur &amp; navigatie (grijstinten, geen kleuren). High-fidelity = definitieve look &amp; feel.
+    Gele labels zijn klik-annotaties: ze laten zien waar een actie naartoe leidt. Onderaan staat het navigatiediagram.
+  </p>
+</div>
+
+<!-- ===================== NAVIGATIE / FLOW ===================== -->
+<figure class="wf" id="wf-flow">
+  <figcaption><span class="tag">0</span> Navigatie-overzicht — hoe de schermen met elkaar verbonden zijn</figcaption>
+  <div class="screen lofi" style="padding:18px">
+    <svg viewBox="0 0 1120 660" width="100%" style="background:#fff;border:1px dashed #9a9a9a">
+      <defs>
+        <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+          <path d="M0,0 L8,3.5 L0,7 z" fill="#555"/>
+        </marker>
+      </defs>
+      <g font-family="Segoe UI, sans-serif">
+        <!-- boxes -->
+        <g>
+          <rect x="60" y="60" width="270" height="96" rx="4" fill="#f6f6f6" stroke="#555" stroke-dasharray="5 4"/>
+          <text x="195" y="98" text-anchor="middle" font-size="18" font-weight="700" fill="#222">Home</text>
+          <text x="195" y="122" text-anchor="middle" font-size="12" fill="#777">/  welkom + uitleg</text>
+
+          <rect x="430" y="60" width="270" height="96" rx="4" fill="#f6f6f6" stroke="#555" stroke-dasharray="5 4"/>
+          <text x="565" y="98" text-anchor="middle" font-size="18" font-weight="700" fill="#222">Lijst / Pokédex</text>
+          <text x="565" y="122" text-anchor="middle" font-size="12" fill="#777">/list  zoeken &amp; filteren</text>
+
+          <rect x="800" y="60" width="270" height="96" rx="4" fill="#f6f6f6" stroke="#555" stroke-dasharray="5 4"/>
+          <text x="935" y="98" text-anchor="middle" font-size="18" font-weight="700" fill="#222">Detail</text>
+          <text x="935" y="122" text-anchor="middle" font-size="12" fill="#777">/detail/:id  1 Pokémon</text>
+
+          <rect x="60" y="470" width="270" height="96" rx="4" fill="#f6f6f6" stroke="#555" stroke-dasharray="5 4"/>
+          <text x="195" y="508" text-anchor="middle" font-size="18" font-weight="700" fill="#222">Teams</text>
+          <text x="195" y="532" text-anchor="middle" font-size="12" fill="#777">/teams  overzicht</text>
+
+          <rect x="430" y="470" width="270" height="96" rx="4" fill="#f6f6f6" stroke="#555" stroke-dasharray="5 4"/>
+          <text x="565" y="508" text-anchor="middle" font-size="18" font-weight="700" fill="#222">Team detail</text>
+          <text x="565" y="532" text-anchor="middle" font-size="12" fill="#777">/teams/:id  leden</text>
+
+          <rect x="800" y="470" width="270" height="96" rx="4" fill="#f6f6f6" stroke="#555" stroke-dasharray="5 4"/>
+          <text x="935" y="508" text-anchor="middle" font-size="18" font-weight="700" fill="#222">Favorieten</text>
+          <text x="935" y="532" text-anchor="middle" font-size="12" fill="#777">/favorieten  snel kiezen</text>
+        </g>
+
+        <!-- navigation bar mock -->
+        <rect x="60" y="290" width="1010" height="52" rx="4" fill="#efefef" stroke="#999"/>
+        <text x="565" y="322" text-anchor="middle" font-size="13" fill="#555">
+          ⚡ Navigation (vaste Header) — Home · Pokédex · Teams · Favorieten — aanwezig op élk scherm
+        </text>
+
+        <!-- arrows row 1 -->
+        <line x1="330" y1="108" x2="424" y2="108" stroke="#555" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="377" y="96" text-anchor="middle" font-size="11" fill="#333">CTA "Naar de Pokédex"</text>
+
+        <line x1="700" y1="108" x2="794" y2="108" stroke="#555" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="747" y="96" text-anchor="middle" font-size="11" fill="#333">klik op kaart</text>
+
+        <line x1="935" y1="156" x2="935" y2="464" stroke="#555" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="948" y="300" font-size="11" fill="#333">♥ favoriet / "+"</text>
+        <text x="948" y="316" font-size="11" fill="#333">→ team kiezen</text>
+
+        <!-- arrows row 2 -->
+        <line x1="330" y1="518" x2="424" y2="518" stroke="#555" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="377" y="506" text-anchor="middle" font-size="11" fill="#333">"Openen"</text>
+
+        <line x1="565" y1="464" x2="565" y2="162" stroke="#555" stroke-width="2" marker-end="url(#ar)" stroke-dasharray="6 4"/>
+        <text x="578" y="392" font-size="11" fill="#333">"＋ Pokémon toevoegen"</text>
+        <text x="578" y="408" font-size="11" fill="#333">opent de Pokédex-picker</text>
+
+        <line x1="800" y1="518" x2="706" y2="518" stroke="#555" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="753" y="506" text-anchor="middle" font-size="11" fill="#333">"Team maken van favorieten"</text>
+
+        <!-- nav bar connections -->
+        <path d="M195 156 L195 288" stroke="#555" stroke-width="2" marker-end="url(#ar)"/>
+        <path d="M195 290 L195 464" stroke="#555" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ar)"/>
+        <path d="M565 156 L565 288" stroke="#555" stroke-width="2" marker-end="url(#ar)"/>
+        <path d="M935 342 L935 464" stroke="#555" stroke-width="2" marker-end="url(#ar)"/>
+        <text x="210" y="228" font-size="11" fill="#333">"Mijn teams"</text>
+        <text x="580" y="228" font-size="11" fill="#333">vaste menulink</text>
+
+        <!-- legend -->
+        <rect x="60" y="596" width="1010" height="46" fill="#fafafa" stroke="#bbb" stroke-dasharray="4 4"/>
+        <text x="76" y="624" font-size="12" fill="#555">
+          Register: Home = / · Lijst = /list · Detail = /detail/:id · Teams = /teams · Team detail = /teams/:id · Favorieten = /favorieten
+        </text>
+      </g>
+    </svg>
+  </div>
+</figure>
+
+<div id="wireframes"></div>
+
+<div class="legend">
+  <b>Gebruik:</b> open dit bestand in de browser (of <code>npm run wireframes</code>), maak van elke figuur een screenshot
+  en plak die in je Word-document. Het bestand is ook te printen naar PDF (<code>Ctrl/Cmd + P</code> → "Als PDF opslaan").
+  <br />
+  <b>Opbouw:</b> elk scherm staat één keer in de HTML en wordt door de script onderaan in zowel low- als high-fidelity
+  weergegeven — precies het idee achter herbruikbare componenten.
+</div>
+
+<script>
+/* ------------------------------------------------------------------
+   Elk scherm wordt maar ÉÉN KEER beschreven en daarna in twee stijlen
+   (low- en high-fidelity) getoond. Dit is dezelfde gedachte als de
+   herbruikbare <PokemonCard />-componenten in de echte applicatie.
+------------------------------------------------------------------ */
+
+const SPRITE = (n) => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${n}.png`;
+
+const chrome = (url) => `
+<div class="bar">
+  <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+  <div class="url">localhost:5173${url}</div>
+</div>`;
+
+const nav = (active) => `
+<div class="nav">
+  <div class="brand"><span class="logo">⚡</span> PokéTeam Manager</div>
+  <div class="links">
+    <a class="${active === "home" ? "on" : ""}">Home</a>
+    <a class="${active === "pokedex" ? "on" : ""}">Pokédex</a>
+    <a class="${active === "teams" ? "on" : ""}">Teams</a>
+    <a class="${active === "favorites" ? "on" : ""}">Favorieten</a>
+  </div>
+  <div class="nav-meta">3 teams · 8 favorieten</div>
+</div>`;
+
+const foot = () => `
+<div class="foot">
+  <span>© 2026 PokéTeam Manager — Front-end L2</span>
+  <span>Data: PokéAPI · https://pokeapi.co</span>
+</div>`;
+
+const chips = (types) => `<div class="chips">${types.map(t => `<span class="chip ${t.toLowerCase()}">${t}</span>`).join("")}</div>`;
+
+const spriteBox = (num, cls = "sprite") => `
+<div class="${cls}"><span class="fb">#${String(num).padStart(3, "0")}</span>
+  <img src="${SPRITE(num)}" alt="" onerror="this.style.display='none'"></div>`;
+
+const pokeCard = (num, name, types, note) => `
+<div class="card">
+  ${spriteBox(num)}
+  <div class="meta">
+    <span class="num">№ ${String(num).padStart(3, "0")}</span>
+    <h4>${name}</h4>
+    ${chips(types)}
+  </div>
+  <div class="acts">
+    <button class="ico liked">♥</button>
+    <button class="ico">＋</button>
+  </div>
+  ${note ? `<span class="note">${note}</span>` : ""}
+</div>`;
+
+const toolbar = (extra = "") => `
+<div class="toolbar">
+  <div class="search">🔍 Zoek op naam of nummer…</div>
+  <select class="pill"><option>Alle types</option><option>Grass</option><option>Fire</option><option>Water</option></select>
+  <select class="pill"><option>Sorteer: № oplopend</option><option>Sorteer: A–Z</option></select>
+  ${extra}
+</div>`;
+
+const screens = {};
+
+/* ---------------- 1. HOME ---------------- */
+screens.home = `
+${chrome("/")}
+<div class="app">
+  ${nav("home")}
+  <div class="main">
+    <div class="hero">
+      <div class="ball"></div>
+      <h2>Bouw je perfecte Pokémon-team</h2>
+      <p>Zoek Pokémon op in de Pokédex, bewaar je favorieten en stel teams samen.
+         Alles komt live uit de PokéAPI — jij beheert de selectie.</p>
+      <div class="cta">
+        <button class="btn">Naar de Pokédex →</button>
+        <button class="btn ghost">Mijn teams</button>
+        <span class="note" style="right:auto; left:16px; top:auto; bottom:-12px">➜ /list</span>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><b>3</b><span>Teams aangemaakt</span></div>
+      <div class="stat"><b>8</b><span>Favoriete Pokémon</span></div>
+      <div class="stat"><b>1025</b><span>Pokémon beschikbaar</span></div>
+    </div>
+
+    <div class="sec-title"><h3>Zo werkt het</h3></div>
+    <div class="steps">
+      <div class="step"><i>1</i><h5>Zoek &amp; filter</h5><p>Zoek op naam, filter op type en sorteer de lijst.</p></div>
+      <div class="step"><i>2</i><h5>Bewaar favorieten</h5><p>Klik op het hartje en vind je favorieten snel terug.</p></div>
+      <div class="step"><i>3</i><h5>Stel je team samen</h5><p>Max. 6 Pokémon per team — toevoegen en verwijderen met één klik.</p></div>
+    </div>
+  </div>
+  ${foot()}
+</div>`;
+
+/* ---------------- 2. POKEDEX / LIJST ---------------- */
+screens.pokedex = `
+${chrome("/list")}
+<div class="app">
+  ${nav("pokedex")}
+  <div class="main">
+    ${toolbar(`<button class="btn ghost sm">♥ Alleen favorieten</button>`)}
+    <p class="count">1025 Pokémon gevonden · pagina 1 van 35</p>
+    <div class="grid">
+      ${pokeCard(1, "Bulbasaur", ["Grass", "Poison"], "➜ /detail/1")}
+      ${pokeCard(4, "Charmander", ["Fire"], "➜ /detail/4")}
+      ${pokeCard(7, "Squirtle", ["Water"], "➜ /detail/7")}
+      ${pokeCard(25, "Pikachu", ["Electric"], "♥ → Favorieten")}
+      ${pokeCard(39, "Jigglypuff", ["Normal", "Fairy"], "➜ /detail/39")}
+      ${pokeCard(52, "Meowth", ["Normal"], "➜ /detail/52")}
+      ${pokeCard(54, "Psyduck", ["Water"], "➜ /detail/54")}
+      ${pokeCard(133, "Eevee", ["Normal"], "➜ /detail/133")}
+    </div>
+    <div class="pager">
+      <span>‹</span><span class="on">1</span><span>2</span><span>3</span><span>…</span><span>35</span><span>›</span>
+      <span class="note" style="position:static; transform:none; margin-left:10px">＋ op een kaart → kies team</span>
+    </div>
+  </div>
+  ${foot()}
+</div>`;
+
+/* ---------------- 3. DETAIL ---------------- */
+screens.detail = `
+${chrome("/detail/25")}
+<div class="app">
+  ${nav("pokedex")}
+  <div class="main">
+    <a class="crumb">← Terug naar de Pokédex</a>
+    <div class="detail">
+      <div class="panel">
+        ${spriteBox(25, "big-sprite")}
+        <div class="stack">
+          <button class="btn dark">♥ Uit favorieten verwijderen</button>
+          <button class="btn">＋ Toevoegen aan team ▾</button>
+          <div class="menu">
+            <div>Kanto Starters</div>
+            <div>Thunder Squad</div>
+            <div>Nieuw team maken…</div>
+            <span class="note" style="position:static; display:inline-block; margin:6px">➜ voegt toe en toont melding</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="d-head">
+          <span class="num">№ 025</span>
+          <h2>Pikachu</h2>
+          ${chips(["Electric"])}
+        </div>
+        <p class="about"><b>Over:</b> Pikachu is een elektrisch type Pokémon. Het bewaart elektriciteit in de
+          wangen en kan die als krachtige schok loslaten. Lengte 0,4 m · gewicht 6,0 kg.</p>
+
+        <div class="sec-title"><h3>Basis-statistieken</h3></div>
+        <div class="bar-row"><span class="lbl">HP</span><span class="val">35</span><div class="track"><i style="width:22%"></i></div></div>
+        <div class="bar-row"><span class="lbl">Attack</span><span class="val">55</span><div class="track"><i style="width:34%"></i></div></div>
+        <div class="bar-row"><span class="lbl">Defense</span><span class="val">40</span><div class="track"><i style="width:25%"></i></div></div>
+        <div class="bar-row"><span class="lbl">Sp. Atk</span><span class="val">50</span><div class="track"><i style="width:31%"></i></div></div>
+        <div class="bar-row"><span class="lbl">Sp. Def</span><span class="val">50</span><div class="track"><i style="width:31%"></i></div></div>
+        <div class="bar-row"><span class="lbl">Speed</span><span class="val">90</span><div class="track"><i style="width:56%"></i></div></div>
+
+        <div class="sec-title"><h3>Vermogens</h3></div>
+        ${chips(["Static", "Lightning Rod"])}
+      </div>
+    </div>
+  </div>
+  ${foot()}
+</div>`;
+
+/* ---------------- 4. TEAMS (LIST) ---------------- */
+screens.teams = `
+${chrome("/teams")}
+<div class="app">
+  ${nav("teams")}
+  <div class="main">
+    <div class="sec-title">
+      <h3>Mijn teams <span style="color:#8f8fa6;font-weight:400;font-size:13px">· 3 teams</span></h3>
+      <button class="btn">＋ Nieuw team</button>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <span class="note">➜ /teams/1</span>
+        <h4>Kanto Starters</h4>
+        <div class="sub">6 / 6 leden · aangemaakt 12 sep</div>
+        <div class="slots">
+          <div class="slot"><span class="fb">1</span><img src="${SPRITE(1)}" onerror="this.style.display='none'"><span class="x">✕</span></div>
+          <div class="slot"><span class="fb">4</span><img src="${SPRITE(4)}" onerror="this.style.display='none'"><span class="x">✕</span></div>
+          <div class="slot"><span class="fb">7</span><img src="${SPRITE(7)}" onerror="this.style.display='none'"><span class="x">✕</span></div>
+          <div class="slot"><span class="fb">25</span><img src="${SPRITE(25)}" onerror="this.style.display='none'"><span class="x">✕</span></div>
+          <div class="slot"><span class="fb">133</span><img src="${SPRITE(133)}" onerror="this.style.display='none'"><span class="x">✕</span></div>
+          <div class="slot"><span class="fb">54</span><img src="${SPRITE(54)}" onerror="this.style.display='none'"><span class="x">✕</span></div>
+        </div>
+        <div class="row">
+          <button class="btn sm">Openen</button>
+          <button class="btn danger sm">Verwijderen</button>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <span class="note">➜ /teams/2</span>
+        <h4>Thunder Squad</h4>
+        <div class="sub">3 / 6 leden · aangemaakt 14 sep</div>
+        <div class="slots">
+          <div class="slot"><span class="fb">25</span><img src="${SPRITE(25)}" onerror="this.style.display='none'"><span class="x">✕</span></div>
+          <div class="slot"><span class="fb">26</span><img src="${SPRITE(26)}" onerror="this.style.display='none'"><span class="x">✕</span></div>
+          <div class="slot"><span class="fb">125</span><img src="${SPRITE(125)}" onerror="this.style.display='none'"><span class="x">✕</span></div>
+          <div class="slot empty"><span>＋</span></div>
+          <div class="slot empty"><span>＋</span></div>
+          <div class="slot empty"><span>＋</span></div>
+        </div>
+        <div class="row">
+          <button class="btn sm">Openen</button>
+          <button class="btn danger sm">Verwijderen</button>
+        </div>
+      </div>
+
+      <div class="newteam">
+        <span style="font-size:22px">＋</span>
+        Nieuw team aanmaken
+        <span class="note" style="position:static">➜ dialoog: naam invullen</span>
+      </div>
+    </div>
+
+    <div class="empty-state" style="margin-top:18px">
+      <b>Tip</b>
+      Selecteer in de Pokédex meerdere favorieten en klik op "Team maken van favorieten" om direct een team te vullen.
+    </div>
+  </div>
+  ${foot()}
+</div>`;
+
+/* ---------------- 5. TEAM DETAIL ---------------- */
+screens.team = `
+${chrome("/teams/1")}
+<div class="app">
+  ${nav("teams")}
+  <div class="main">
+    <a class="crumb">← Alle teams</a>
+    <div class="sec-title">
+      <h3>Kanto Starters</h3>
+      <div style="display:flex;gap:8px">
+        <button class="btn ghost sm">Hernoemen</button>
+        <button class="btn sm">＋ Pokémon toevoegen</button>
+        <span class="note" style="position:static;transform:none">➜ opent Pokédex-picker</span>
+      </div>
+    </div>
+
+    <div class="panel" style="margin-bottom:16px">
+      <div class="cap"><span>Teamleden</span><span>5 / 6 gevuld</span></div>
+      <div class="slots">
+        <div class="slot"><span class="fb">1</span><img src="${SPRITE(1)}" onerror="this.style.display='none'"><span class="x">✕</span></div>
+        <div class="slot"><span class="fb">4</span><img src="${SPRITE(4)}" onerror="this.style.display='none'"><span class="x">✕</span></div>
+        <div class="slot"><span class="fb">7</span><img src="${SPRITE(7)}" onerror="this.style.display='none'"><span class="x">✕</span></div>
+        <div class="slot"><span class="fb">25</span><img src="${SPRITE(25)}" onerror="this.style.display='none'"><span class="x">✕</span></div>
+        <div class="slot"><span class="fb">133</span><img src="${SPRITE(133)}" onerror="this.style.display='none'"><span class="x">✕</span></div>
+        <div class="slot empty"><span>＋</span></div>
+      </div>
+      <span class="note" style="position:static;display:inline-block">✕ = verwijderen uit team</span>
+    </div>
+
+    <div class="member">
+      <div class="mini"><span class="fb">1</span><img src="${SPRITE(1)}" onerror="this.style.display='none'"></div>
+      <div><div class="nm">Bulbasaur</div><div class="ty">№ 001 · Grass / Poison</div></div>
+      <div class="right">
+        <button class="btn ghost sm">Bekijken</button>
+        <button class="btn danger sm">Verwijderen</button>
+      </div>
+    </div>
+    <div class="member">
+      <div class="mini"><span class="fb">4</span><img src="${SPRITE(4)}" onerror="this.style.display='none'"></div>
+      <div><div class="nm">Charmander</div><div class="ty">№ 004 · Fire</div></div>
+      <div class="right">
+        <button class="btn ghost sm">Bekijken</button>
+        <button class="btn danger sm">Verwijderen</button>
+      </div>
+    </div>
+    <div class="member">
+      <div class="mini"><span class="fb">7</span><img src="${SPRITE(7)}" onerror="this.style.display='none'"></div>
+      <div><div class="nm">Squirtle</div><div class="ty">№ 007 · Water</div></div>
+      <div class="right">
+        <button class="btn ghost sm">Bekijken</button>
+        <button class="btn danger sm">Verwijderen</button>
+      </div>
+    </div>
+  </div>
+  ${foot()}
+</div>`;
+
+/* ---------------- 6. FAVORIETEN ---------------- */
+screens.favorites = `
+${chrome("/favorieten")}
+<div class="app">
+  ${nav("favorites")}
+  <div class="main">
+    <div class="sec-title">
+      <h3>Favorieten <span style="color:#8f8fa6;font-weight:400;font-size:13px">· 4 bewaard</span></h3>
+      <button class="btn">🔥 Team maken van favorieten</button>
+    </div>
+    ${toolbar()}
+    <div class="grid">
+      ${pokeCard(25, "Pikachu", ["Electric"], "➜ /detail/25")}
+      ${pokeCard(6, "Charizard", ["Fire", "Flying"], "➜ /detail/6")}
+      ${pokeCard(9, "Blastoise", ["Water"], "➜ /detail/9")}
+      ${pokeCard(3, "Venusaur", ["Grass", "Poison"], "➜ /detail/3")}
+    </div>
+    <div class="pager">
+      <span class="note" style="position:static; transform:none">filter werkt op de al opgehaalde favorieten</span>
+    </div>
+  </div>
+  ${foot()}
+</div>`;
+
+/* ---------------- render: elk scherm in low- én high-fidelity ---------------- */
+const ORDER = [
+  ["home",     "1", "Home"],
+  ["pokedex",  "2", "Lijst / Pokédex"],
+  ["detail",   "3", "Detail (één Pokémon)"],
+  ["teams",    "4", "Teams (overzicht)"],
+  ["team",     "5", "Team detail"],
+  ["favorites","6", "Favorieten"]
+];
+
+const wrap = document.getElementById("wireframes");
+ORDER.forEach(([key, nr, title]) => {
+  ["lofi", "hifi"].forEach((mode) => {
+    const fig = document.createElement("figure");
+    fig.className = "wf";
+    fig.id = `wf-${key}-${mode}`;
+    fig.innerHTML = `
+      <figcaption>
+        <span class="tag">${nr}${mode === "lofi" ? "a" : "b"}</span>
+        ${title} — ${mode === "lofi" ? "low-fidelity (structuur &amp; navigatie)" : "high-fidelity (look &amp; feel)"}
+      </figcaption>
+      <div class="screen ${mode}">
+        <div class="browser">
+          ${screens[key]}
+        </div>
+      </div>`;
+    wrap.appendChild(fig);
+  });
+});
+</script>
+</body>
+</html>
